@@ -47,38 +47,36 @@ Route::middleware('auth')->prefix('bookings')->name('bookings.')->group(function
 });
 
 // Admin routes
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('role:admin,manager,staff');
 
-    // Airlines
-    Route::resource('airlines', AirlineController::class);
+    // Hanya Admin
+    Route::middleware('admin')->group(function () {
+        Route::resource('airlines', AirlineController::class);
+        Route::resource('airports', AirportController::class);
+        Route::resource('users', UserController::class);
+    });
 
-    // Airports
-    Route::resource('airports', AirportController::class);
+    // Hanya Manager
+    Route::middleware('manager')->group(function () {
+        Route::resource('airplanes', AirplaneController::class);
+        Route::get('/airlines/{airline}/airplanes', [FlightController::class, 'getAirplanes'])->name('airlines.airplanes');
+        Route::resource('flights', FlightController::class);
+        
+        Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/export/csv', [\App\Http\Controllers\Admin\ReportController::class, 'exportCsv'])->name('reports.exportCsv');
+        Route::get('/reports/export/pdf', [\App\Http\Controllers\Admin\ReportController::class, 'printPdf'])->name('reports.exportPdf');
+    });
 
-    // Airplanes
-    Route::resource('airplanes', AirplaneController::class);
-    Route::get('/airlines/{airline}/airplanes', [FlightController::class, 'getAirplanes'])->name('airlines.airplanes');
+    // Hanya Staff
+    Route::middleware('staff')->group(function () {
+        Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
+        Route::get('/bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
+        Route::put('/bookings/{booking}/status', [AdminBookingController::class, 'updateStatus'])->name('bookings.updateStatus');
+        Route::put('/bookings/{booking}/verify', [AdminBookingController::class, 'verifyPayment'])->name('bookings.verify');
+        Route::put('/bookings/{booking}/reject', [AdminBookingController::class, 'rejectPayment'])->name('bookings.reject');
 
-    // Flights
-    Route::resource('flights', FlightController::class);
-
-    // Bookings
-    Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
-    Route::get('/bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
-    Route::put('/bookings/{booking}/status', [AdminBookingController::class, 'updateStatus'])->name('bookings.updateStatus');
-    Route::put('/bookings/{booking}/verify', [AdminBookingController::class, 'verifyPayment'])->name('bookings.verify');
-    Route::put('/bookings/{booking}/reject', [AdminBookingController::class, 'rejectPayment'])->name('bookings.reject');
-
-    // Users
-    Route::resource('users', UserController::class);
-
-    // Reports (Owner)
-    Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
-    Route::get('/reports/export/csv', [\App\Http\Controllers\Admin\ReportController::class, 'exportCsv'])->name('reports.exportCsv');
-    Route::get('/reports/export/pdf', [\App\Http\Controllers\Admin\ReportController::class, 'printPdf'])->name('reports.exportPdf');
-
-    // Offline Bookings (Staff)
-    Route::get('/offline-bookings/create', [\App\Http\Controllers\Admin\OfflineBookingController::class, 'create'])->name('offline-bookings.create');
-    Route::post('/offline-bookings', [\App\Http\Controllers\Admin\OfflineBookingController::class, 'store'])->name('offline-bookings.store');
+        Route::get('/offline-bookings/create', [\App\Http\Controllers\Admin\OfflineBookingController::class, 'create'])->name('offline-bookings.create');
+        Route::post('/offline-bookings', [\App\Http\Controllers\Admin\OfflineBookingController::class, 'store'])->name('offline-bookings.store');
+    });
 });
