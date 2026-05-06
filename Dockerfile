@@ -41,8 +41,8 @@ RUN npm run build
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage \
-    && chmod -R 755 /var/www/bootstrap/cache
+    && chmod -R 777 /var/www/storage \
+    && chmod -R 777 /var/www/bootstrap/cache
 
 # Create entrypoint
 COPY docker-entrypoint.sh /usr/local/bin/

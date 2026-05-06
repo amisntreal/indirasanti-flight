@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# Indirasanti Flight ✈️
+# Indirasanti Flight 
 
 Sistem pemesanan tiket penerbangan fullstack berbasis Laravel dengan sistem pembayaran transfer bank manual.
 
