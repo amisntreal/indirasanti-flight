@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Indirasanti Flight ✈️
 
 Sistem pemesanan tiket penerbangan fullstack berbasis Laravel dengan sistem pembayaran transfer bank manual.
@@ -145,3 +146,6 @@ docker-compose.yml
 5. Admin/Manager mengecek bukti di dashboard
 6. Admin melakukan Konfirmasi (Confirmed) atau Penolakan (Cancelled)
 7. Jika Konfirmasi → Status pembayaran menjadi "Lunas" (Paid)
+=======
+# indirasanti-flight
+>>>>>>> f2f03cf9d67d634cbf4b24d2c9eb5945942cb924

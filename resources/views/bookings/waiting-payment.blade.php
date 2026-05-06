@@ -32,7 +32,7 @@
             <div class="border border-amber-200 rounded-xl p-5 mb-6 text-center">
                 <p class="text-xs text-amber-600 uppercase tracking-wide mb-3">Bukti Transfer Anda</p>
                 <div class="inline-block p-2 bg-slate-50 border border-slate-200 rounded-lg">
-                    <img src="{{ asset('storage/' . $booking->payment->proof_of_payment) }}" alt="Bukti Transfer" class="max-h-64 object-contain rounded">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($booking->payment->proof_of_payment) }}" alt="Bukti Transfer" class="max-h-64 object-contain rounded">
                 </div>
                 <p class="text-xs text-amber-500 mt-3">Bank Tujuan: <span class="font-semibold uppercase">{{ $booking->payment->payment_method }}</span></p>
             </div>

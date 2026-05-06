@@ -71,8 +71,8 @@
                 @if($booking->payment->proof_of_payment)
                 <div class="mt-4 pt-4 border-t border-amber-50 text-center">
                     <p class="text-xs text-amber-600 mb-2">Bukti Transfer</p>
-                    <a href="{{ asset('storage/' . $booking->payment->proof_of_payment) }}" target="_blank" class="inline-block p-1 border border-slate-200 rounded">
-                        <img src="{{ asset('storage/' . $booking->payment->proof_of_payment) }}" class="h-32 object-contain" alt="Bukti Transfer">
+                    <a href="{{ \Illuminate\Support\Facades\Storage::url($booking->payment->proof_of_payment) }}" target="_blank" class="inline-block p-1 border border-slate-200 rounded">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($booking->payment->proof_of_payment) }}" class="h-32 object-contain" alt="Bukti Transfer">
                     </a>
                 </div>
                 @endif
