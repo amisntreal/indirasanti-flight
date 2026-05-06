@@ -14,7 +14,7 @@ services:
     environment:
       - DB_HOST=mysql
       - DB_PORT=3306
-      - DB_DATABASE=maskapai_penerbangan
+      - DB_DATABASE=indirasanti_flight
       - DB_USERNAME=indirasanti
       - DB_PASSWORD=secret
       - APP_ENV=production
